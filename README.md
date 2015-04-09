@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/msrxthr/imgurwrap.svg)](https://travis-ci.org/msrxthr/imgurwrap)
+
 # imgurwrap
 
 ### Description
