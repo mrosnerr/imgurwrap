@@ -70,15 +70,32 @@ imgurwrap.getURLData('http://imgur.com/a/PzWUu', function(err, res) {
 });
 
 ```
+#### For commercial usage, Mashape can be utilized for making requests.
+
+* [Register with Mashape](https://www.mashape.com/imgur/imgur-9) to get a MashapeAuthID for your application.
+
+```javascript
+// Replace with your MashapeAuthID
+imgurwrap.setMashapeAuthID('cXs47w356nWDx2k9E34G36j4ZHBAdxmZ');
+```
+
+Note that on setting the MashapeAuthID, the endpoint used for making requests will automaticaly be
+updated to point to the Mashape Imgur endpoint (i.e. https://imgur-apiv3.p.mashape.com/).
 
 
 
 #### Available configuration options
 
 * [Register with Imgur](https://api.imgur.com/#register) to get a ClientID for your application.
+* [Register with Mashape](https://www.mashape.com/imgur/imgur-9) to get a MashapeAuthID for your application.
 
 ```javascript
-imgurwrap.setClientID('eb534344da354de40d90'); // Replace with your CleintID
+// Replace with your CleintID
+imgurwrap.setClientID('eb534344da354de40d90');
+
+// Replace with your MashapeAuthID
+imgurwrap.setMashapeAuthID('cXs47w356nWDx2k9E34G36j4ZHBAdxmZ');
+
 imgurwrap.setUserAgent('imgurwrap default useragent v1.1');
 imgurwrap.setApiHost('https://api.imgur.com');
 imgurwrap.setApiVersion(3);

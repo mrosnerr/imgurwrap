@@ -66,6 +66,13 @@ imgurwrap.setApiVersion = function(api) {
     _api = api;
 };
 
+imgurwrap.setMashapeAuthID = function(mashapeAuthID) {
+    if (mashapeAuthID) {
+        _headers['X-Mashape-Authorization'] = mashapeAuthID;
+        _host = 'https://imgur-apiv3.p.mashape.com/';
+    }
+};
+
 var _getEndpoint = function(model, id) {
     return util.format('%s/%s/%s/%s', _host, _api, model, id);
 };
