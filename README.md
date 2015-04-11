@@ -68,8 +68,16 @@ imgurwrap.getURLData('http://imgur.com/a/PzWUu', function(err, res) {
     console.log(res);
     console.log(res.model); // Prints out 'album'
 });
-
 ```
+
+##### 4. Request rate limiting information
+
+```javascript
+imgurwrap.getRateLimitingData(function(err, res) {
+    console.log(res);
+});
+```
+
 #### For commercial usage, Mashape can be utilized for making requests.
 
 * [Register with Mashape](https://www.mashape.com/imgur/imgur-9) to get a MashapeAuthID for your application.
