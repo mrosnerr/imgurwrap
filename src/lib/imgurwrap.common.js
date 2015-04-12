@@ -29,6 +29,27 @@ imgurwrap.getRateLimitingData = function(callback) {
     return request.get(params, imgurwrapUtil.responseCallback(callback));
 };
 
+var _loadMultipleImages = function(idArr, callback) {
+    var remaining = idArr.length;
+    var images = [];
+    var success = true;
+    idArr.forEach(function(myId) {
+        imgurwrapImage.getImageData(myId, function(err, result) {
+            if(err) {
+                return callback(err);
+            } else {
+                images.push(result);
+                if(--remaining === 0) {
+                    return callback(null, {
+                        images: images,
+                        model: 'images'
+                    });
+                }
+            }
+        });
+    });
+};
+
 /**                                                                                                                                                                                                                   
  * Given an Imgur URL for an image, images, or an album, it will determine the correct endpoint
  * to use and return the appropriate data. URL's of the following forms are handled:
@@ -43,33 +64,14 @@ imgurwrap.getURLData = function(url, callback) {
         return callback(new imgurwrapUtil.ImgurError(null, 'not an imgur url "' + url + '"'));
     }
     var idArr = imgurwrapUtil.parseImageIds(url);
-    if (!idArr || idArr.length < 1) {
+    if(!idArr || idArr.length < 1) {
         return callback(new imgurwrapUtil.ImgurError(null, 'unable to extract imgur id from "' + url + '"'));
     }
     if(idArr.length === 1) {
         if(imgurwrapUtil.isAlbumURL(url)) {
             return imgurwrapAlbum.getAlbumData(idArr[0], callback);
-        } else {
-            return imgurwrapImage.getImageData(idArr[0], callback);
         }
-    } else {
-        var remaining = idArr.length;
-        var images = [];
-        var success = true;
-        idArr.forEach(function(myId) {
-            imgurwrapImage.getImageData(myId, function(err, result) {
-                if(err) {
-                    return callback(err);
-                } else {
-                    images.push(result);
-                    if(--remaining === 0) {
-                        return callback(null, {
-                            images: images,
-                            model: 'images'
-                        });
-                    }
-                }
-            });
-        });
+        return imgurwrapImage.getImageData(idArr[0], callback);
     }
+    return _loadMultipleImages(idArr, callback);
 };
