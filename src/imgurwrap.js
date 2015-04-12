@@ -1,7 +1,6 @@
 'use strict';
 var imgurwrap = module.exports;
 var request = require('request');
-var util = require('util');
 
 /**                                                                                                                                                                
  * Error handling
@@ -37,16 +36,14 @@ imgurwrap.isAlbum = function(url) {
     return _imgurDomain.test(url) && _imgurAlbumTest.test(url);
 };
 
-/**
- * Parameter and endpoint configuration
- */
+
 var _headers = {
     'User-Agent': 'imgurwrap default useragent v1.1'
 };
 
 imgurwrap.setClientID = function(clientID) {
     if(clientID) {
-        _headers.Authorization = util.format('Client-ID %s', clientID);
+        _headers.Authorization = 'Client-ID ' + clientID);
     } else {
         _headers.Authorization = clientID;
     }
@@ -73,51 +70,75 @@ imgurwrap.setMashapeAuthID = function(mashapeAuthID) {
     }
 };
 
-var _getEndpoint = function(model, id) {
-    return util.format('%s/%s/%s/%s', _host, _api, model, id);
+var _getEndpoint = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift(_api);
+    args.unshift(_host);
+    return args.join('/');
 };
 
-/**
- * Request validation, construction, and call
- */
-var _initiateRequest = function(id, model, callback) {
-    if(!_headers.Authorization) {
-        return callback(new _ImgurError(null, 'ClientID is not set. Please set by calling setClientID(...)'));
-    }
-    var params = {
-        url: _getEndpoint(model, id),
+var _getBaseRequestParams = function(endpoint) {
+    return {
+        url: endpoint,
         headers: _headers,
         json: true
     };
-    request.get(params, function(err, response, result) {
+};
+
+var _validateRequestParams = function(params) {
+    if(!params.headers.Authorization) {
+        return new _ImgurError(null, 'ClientID is not set. Please set by calling setClientID(...)');
+    }
+};
+
+var _responseCallback = function(callback) {
+    return function(err, response, result) {
         if(err) {
             return callback(err);
         } else if(response.statusCode !== 200) {
             return callback(new _ImgurError(response.statusCode));
         } else {
             if(result) {
-                result.model = model;
+                result.model = response.req.path.split('/')[2];
                 return callback(null, result);
             } else {
                 return callback(new _ImgurError(null, 'No data recieved in the response.'));
             }
         }
-    });
+    };
 };
 
 /**
  * API
  */
 imgurwrap.getRateLimitingData = function(callback) {
-    return _initiateRequest('', 'credits', callback);
+    var endpoint = _getEndpoint('credits');
+    var params = _getBaseRequestParams(endpoint);
+    var err = _validateRequestParams(params);
+    if (err) {
+        return callback(err);
+    }
+    return request.get(params, _responseCallback(callback));
 };
 
 imgurwrap.getImageData = function(id, callback) {
-    return _initiateRequest(id, 'image', callback);
+    var endpoint = _getEndpoint('image', id);
+    var params = _getBaseRequestParams(endpoint);
+    var err = _validateRequestParams(params);
+    if (err) {
+        return callback(err);
+    }
+    return request.get(params, _responseCallback(callback));
 };
 
 imgurwrap.getAlbumData = function(id, callback) {
-    return _initiateRequest(id, 'album', callback);
+    var endpoint = _getEndpoint('album', id);
+    var params = _getBaseRequestParams(endpoint);
+    var err = _validateRequestParams(params);
+    if (err) {
+        return callback(err);
+    }
+    return request.get(params, _responseCallback(callback));
 };
 
 /**                                                                                                                                                                                                                   
