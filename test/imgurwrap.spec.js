@@ -49,11 +49,11 @@ describe('imgurwrap', function() {
         var imagesUrl = 'http://imgur.com/' + imageIds.join(',') + '#1';
         var userUrl = 'http://' + userIds[0] + '.imgur.com';
         var someOtherUrl = 'http://idontknowsomethingelse.com/a/' + albumIds[0];
-        (imgurwrap.isAlbum(albumUrl)).should.be.true;
-        (imgurwrap.isAlbum(imageUrl)).should.not.be.true;
-        (imgurwrap.isAlbum(imagesUrl)).should.not.be.true;
-        (imgurwrap.isAlbum(userUrl)).should.not.be.true;
-        (imgurwrap.isAlbum(someOtherUrl)).should.not.be.true;
+        (imgurwrap.isAlbumURL(albumUrl)).should.be.true;
+        (imgurwrap.isAlbumURL(imageUrl)).should.not.be.true;
+        (imgurwrap.isAlbumURL(imagesUrl)).should.not.be.true;
+        (imgurwrap.isAlbumURL(userUrl)).should.not.be.true;
+        (imgurwrap.isAlbumURL(someOtherUrl)).should.not.be.true;
         return done();
     });
     it('should be able to load an image by id', function(done) {
