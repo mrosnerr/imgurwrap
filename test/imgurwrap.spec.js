@@ -8,6 +8,7 @@ var imgurwrap = require('../src/imgurwrap.js'),
 // Register your application and generate a Client_ID 
 // at https://api.imgur.com/#register     
 var clientID = 'eb5332f71090d90';
+imgurwrap.setClientID(clientID);
 
 var imageIds = ['lEVc0PF', 'G80OxqS'],
     albumIds = ['PzWUu'],
@@ -15,6 +16,14 @@ var imageIds = ['lEVc0PF', 'G80OxqS'],
 
 describe('imgurwrap', function() {
     describe('when a ClientID is not set', function() {
+        beforeEach(function(done) {
+            imgurwrap.setClientID(null);
+            return done();
+        });
+        afterEach(function(done) {
+            imgurwrap.setClientID(clientID);
+            return done();
+        });
         it('should should generate an error', function(done) {
             imgurwrap.getImageData(imageIds[0], function(err, res) {
                 should.exist(err);
@@ -24,15 +33,6 @@ describe('imgurwrap', function() {
             });
         });
     });
-    describe('when a ClientID is set', function() {
-        beforeEach(function(done) {
-            imgurwrap.setClientID(clientID);
-            return done();
-        });
-        afterEach(function(done) {
-            imgurwrap.setClientID(null);
-            return done();
-        });
         it('should be able to load rate limiting information', function(done) {
             imgurwrap.getRateLimitingData(function(err, res) {
                 if(err) return done(err);
@@ -187,5 +187,4 @@ describe('imgurwrap', function() {
                 });
             });
         });
-    });
 });
