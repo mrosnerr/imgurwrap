@@ -95,7 +95,11 @@ imgurwrap.responseCallback = function(callback) {
         if(err) {
             return callback(err);
         } else if(response.statusCode !== 200) {
-            return callback(new imgurwrap.ImgurError(response.statusCode));
+            var error = new imgurwrap.ImgurError(response.statusCode);
+            if (result && result.data && result.data.error) {
+                error.message = result.data.error;
+            }
+            return callback(error);
         } else {
             if(result) {
                 result.model = response.req.path.split('/')[2];
