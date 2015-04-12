@@ -10,7 +10,7 @@ var imageId = 'a9uzvgf';
 var imageId2 = 'G80OxqS';
 
 describe('imgurwrap', function() {
-    describe('for an image', function() {
+    describe('for getting an image', function() {
         it('should be able to load by id', function(done) {
             imgurwrap.getImageData(imageId, function(err, res) {
                 if(err) return done(err);
@@ -64,7 +64,7 @@ describe('imgurwrap', function() {
             });
         });
     });
-    describe('for multiple images', function() {
+    describe('for getting multiple images', function() {
         var imageIds = [imageId, imageId2];
         it('should work for url\'s of the form "http://imgur.com/{id.1},{id.2}"', function(done) {
             var url = 'http://imgur.com/' + imageIds.join(',');
