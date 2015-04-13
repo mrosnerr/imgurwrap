@@ -28,7 +28,9 @@
     "imgur",
     "API",
     "wrapper",
-    "images"
+    "images",
+    "image",
+    "upload"
   ],
   "author": "Meir Rosner",
   "readmeFilename": "README.md"
