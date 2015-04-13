@@ -1,7 +1,7 @@
 {
     "name": "imgurwrap",
     "description": "A wrapper for the Imgur API",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "main": "src/imgurwrap.js",
     "scripts": {
         "test": "grunt --verbose"
