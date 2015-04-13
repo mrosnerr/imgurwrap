@@ -1,12 +1,13 @@
 /*global describe, before, beforeEach, after, afterEach, it */
 'use strict';
 var imgurwrap = require('../src/imgurwrap.js');
+var fs = require('fs');
 var request = require('request');
 var should = require('should');
 
 imgurwrap.setClientID('eb5332f71090d90');
 
-var imageId = 'a9uzvgf';
+var imageId = 'nVQtKSl';
 var imageId2 = 'G80OxqS';
 
 describe('imgurwrap', function() {
@@ -100,6 +101,104 @@ describe('imgurwrap', function() {
                     should.exist(image.data.link);
                 });
                 return done();
+            });
+        });
+    });
+    describe('for uploading an image', function() {
+        var imageURL = 'http://i.imgur.com/' + imageId + '.jpg';
+        var imagePath = __dirname + '/test.jpg';
+        var imageData = fs.readFileSync(imagePath);
+        var deleteHash;
+        var payload;
+        beforeEach(function(done) {
+            deleteHash = null;
+            payload = {
+                title: 'Title',
+                description: 'Description'
+            };
+            done();
+        });
+        afterEach(function(done) {
+            if (!deleteHash) {
+                return done();
+            }
+            imgurwrap.deleteImage(deleteHash, function(err, res) {
+                if(err) return done(err);
+                return done();
+            });
+        });
+        it('should work for a URL', function(done) {
+            payload.image = imageURL;
+            imgurwrap.uploadImageURL(payload, function(err, res) {
+                if(err) return done(err);
+                deleteHash = res.data.deletehash;
+                var uploadId = res.data.id;
+                imgurwrap.getImageData(uploadId, function(err, res) {
+                    if(err) return done(err);
+                    (res.data.id).should.be.equal(uploadId);
+                    (res.data.title).should.be.equal(payload.title);
+                    (res.data.description).should.be.equal(payload.description);
+                    return done();
+                });
+            });
+        });
+        it('should work for a file', function(done) {
+            payload.image = imageData;
+            imgurwrap.uploadImageFile(payload, function(err, res) {
+                if(err) return done(err);
+                deleteHash = res.data.deletehash;
+                var uploadId = res.data.id;
+                imgurwrap.getImageData(uploadId, function(err, res) {
+                    if(err) return done(err);
+                    (res.data.id).should.be.equal(uploadId);
+                    (res.data.title).should.be.equal(payload.title);
+                    (res.data.description).should.be.equal(payload.description);
+                    return done();
+                });
+            });
+        });
+        it('should work for a base64 encoded file', function(done) {
+            payload.image = imageData.toString('base64');
+            imgurwrap.uploadImageBase64(payload, function(err, res) {
+                if(err) return done(err);
+                deleteHash = res.data.deletehash;
+                var uploadId = res.data.id;
+                imgurwrap.getImageData(uploadId, function(err, res) {
+                    if(err) return done(err);
+                    (res.data.id).should.be.equal(uploadId);
+                    (res.data.title).should.be.equal(payload.title);
+                    (res.data.description).should.be.equal(payload.description);
+                    return done();
+                });
+            });
+        });
+    });
+    describe('for deleting an image', function() {
+        var imageURL = 'http://i.imgur.com/' + imageId + '.jpg';
+        var deleteHash;
+        var uploadId;
+        var payload;
+        beforeEach(function(done) {
+            deleteHash = null;
+            payload = {
+                title: 'Title',
+                description: 'Description',
+                image: imageURL
+            };
+            imgurwrap.uploadImageURL(payload, function(err, res) {
+                if(err) return done(err);
+                deleteHash = res.data.deletehash;
+                uploadId = res.data.id;
+                done();
+            });
+        });
+        it('should work', function(done) {
+            imgurwrap.deleteImage(deleteHash, function(err, res) {
+                if(err) return done(err);
+                imgurwrap.getImageData(uploadId, function(err, res) {
+                    (err.status).should.equal(404);
+                    return done();
+                });
             });
         });
     });
