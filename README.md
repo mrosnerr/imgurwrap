@@ -70,7 +70,50 @@ imgurwrap.getURLData('http://imgur.com/a/PzWUu', function(err, res) {
 });
 ```
 
-##### 4. Request rate limiting information
+##### 4. Upload an image
+
+From another URL:
+```javascript
+imgurwrap.uploadImageURL({
+    image: 'http://i.imgur.com/nVQtKSl.jpg',
+    title: 'Something good',
+    description: 'Something descriptive',
+}, function(err, res) {
+    console.log(res);
+});
+```
+From a file:
+```javascript
+var imageData = fs.readFileSync(imagePath);
+
+imgurwrap.uploadImageFile({
+    image: imageData,
+    title: 'Something good',
+    description: 'Something descriptive'
+}, function(err, res) {
+    console.log(res);
+});
+```
+
+From a Base64 encoded file:
+```javascript
+var imageData = fs.readFileSync(imagePath);
+
+imgurwrap.uploadImageBase64({
+    image: imageData,
+    title: 'Something good',
+    description: 'Something descriptive'
+}, function(err, res) {
+    console.log(res);
+});
+```
+##### 5. Delete an image
+```javascript
+imgurwrap.deleteImage('lEV3j0PF', function(err, res) {
+    console.log(res);
+});
+```
+##### 6. Request rate limiting information
 
 ```javascript
 imgurwrap.getRateLimitingData(function(err, res) {
