@@ -50,20 +50,6 @@ describe('imgurwrap', function() {
                 return done();
             });
         });
-        it('should be able to load by URL\'s of the form "http://i.imgur.com/{id}.{ext}"', function(done) {
-            var url = 'http://i.imgur.com/' + imageId + '.jpg';
-            imgurwrap.getURLData(url, function(err, res) {
-                if(err) return done(err);
-                (res.model).should.equal('image');
-                (res.success).should.be.true;
-                (res.status).should.equal(200);
-                (res.data.id).should.be.equal(imageId);
-                (res.data.width).should.be.above(0);
-                (res.data.height).should.be.above(0);
-                should.exist(res.data.link);
-                return done();
-            });
-        });
     });
     describe('for getting multiple images', function() {
         var imageIds = [imageId, imageId2];
