@@ -8,8 +8,7 @@
     "lint": "./node_modules/.bin/eslint src/** test/**"
   },
   "dependencies": {
-    "request": "~2.48.0",
-    "lodash": "~3.6.0"
+    "request": "~2.48.0"
   },
   "repository": {
     "type": "git",
