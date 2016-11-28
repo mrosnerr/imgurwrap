@@ -8,7 +8,7 @@
     "lint": "./node_modules/.bin/eslint src/** test/**"
   },
   "dependencies": {
-    "request": "~2.48.0"
+    "request": "^2.79.0"
   },
   "repository": {
     "type": "git",
