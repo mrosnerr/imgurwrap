@@ -1,9 +1,10 @@
 /*global describe, before, beforeEach, after, afterEach, it */
 'use strict';
-var imgurwrap = require('../src/imgurwrap.js');
+var imgurwrap = require('../../src/imgurwrap.js');
 var fs = require('fs');
-var request = require('request');
-var should = require('should');
+var chai = require('chai');
+
+var should = chai.should();
 
 imgurwrap.setClientID('eb5332f71090d90');
 
@@ -11,6 +12,7 @@ var imageId = 'nVQtKSl';
 var imageId2 = 'G80OxqS';
 
 describe('imgurwrap', function() {
+    this.timeout(10000);
     describe('for getting an image', function() {
         it('should be able to load by id', function(done) {
             imgurwrap.getImageData(imageId, function(err, res) {
@@ -63,7 +65,7 @@ describe('imgurwrap', function() {
                     (image.model).should.equal('image');
                     (image.success).should.be.true;
                     (image.status).should.equal(200);
-                    (imageIds).should.containEql(image.data.id);
+                    (imageIds).should.include(image.data.id);
                     (image.data.width).should.be.above(0);
                     (image.data.height).should.be.above(0);
                     should.exist(image.data.link);
@@ -81,7 +83,7 @@ describe('imgurwrap', function() {
                     (image.model).should.equal('image');
                     (image.success).should.be.true;
                     (image.status).should.equal(200);
-                    (imageIds).should.containEql(image.data.id);
+                    (imageIds).should.include(image.data.id);
                     (image.data.width).should.be.above(0);
                     (image.data.height).should.be.above(0);
                     should.exist(image.data.link);
@@ -91,8 +93,9 @@ describe('imgurwrap', function() {
         });
     });
     describe('for uploading an image', function() {
+
         var imageURL = 'http://i.imgur.com/' + imageId + '.jpg';
-        var imagePath = __dirname + '/test.jpg';
+        var imagePath = __dirname + '/../fixtures/test.jpg';
         var imageData = fs.readFileSync(imagePath);
         var deleteHash;
         var payload;
@@ -108,7 +111,7 @@ describe('imgurwrap', function() {
             if (!deleteHash) {
                 return done();
             }
-            imgurwrap.deleteImage(deleteHash, function(err, res) {
+            imgurwrap.deleteImage(deleteHash, function(err) {
                 if(err) return done(err);
                 return done();
             });
@@ -179,9 +182,9 @@ describe('imgurwrap', function() {
             });
         });
         it('should work', function(done) {
-            imgurwrap.deleteImage(deleteHash, function(err, res) {
+            imgurwrap.deleteImage(deleteHash, function(err) {
                 if(err) return done(err);
-                imgurwrap.getImageData(uploadId, function(err, res) {
+                imgurwrap.getImageData(uploadId, function(err ) {
                     (err.status).should.equal(404);
                     return done();
                 });

@@ -1,8 +1,9 @@
 /*global describe, before, beforeEach, after, afterEach, it */
 'use strict';
-var imgurwrap = require('../src/imgurwrap.js');
-var request = require('request');
-var should = require('should');
+var imgurwrap = require('../../src/imgurwrap.js');
+var chai = require('chai');
+
+var should = chai.should();
 
 imgurwrap.setClientID('eb5332f71090d90');
 

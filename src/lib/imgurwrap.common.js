@@ -32,7 +32,6 @@ imgurwrap.getRateLimitingData = function(callback) {
 var _loadMultipleImages = function(idArr, callback) {
     var remaining = idArr.length;
     var images = [];
-    var success = true;
     idArr.forEach(function(myId) {
         imgurwrapImage.getImageData(myId, function(err, result) {
             if(err) {

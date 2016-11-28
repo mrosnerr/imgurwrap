@@ -1,6 +1,5 @@
 'use strict';
 var _ = require('lodash');
-var request = require('request');
 
 module.exports = _.extend(
     require('./lib/imgurwrap.util.js'),
