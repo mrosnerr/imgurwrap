@@ -32,7 +32,6 @@ imgurwrap.getRateLimitingData = function(callback) {
 var _loadMultipleImages = function(idArr, callback) {
     var remaining = idArr.length;
     var images = [];
-    var success = true;
     idArr.forEach(function(myId) {
         imgurwrapImage.getImageData(myId, function(err, result) {
             if(err) {
@@ -60,7 +59,7 @@ var _loadMultipleImages = function(idArr, callback) {
  * http://imgur.com/a/PzWUu
  */
 imgurwrap.getURLData = function(url, callback) {
-    if(!imgurwrapUtil.isImgurURL(url)) {
+    if(!imgurwrap.isImgurURL(url)) {
         return callback(new imgurwrapUtil.ImgurError(null, 'not an imgur url "' + url + '"'));
     }
     var idArr = imgurwrapUtil.parseImageIds(url);
@@ -68,7 +67,7 @@ imgurwrap.getURLData = function(url, callback) {
         return callback(new imgurwrapUtil.ImgurError(null, 'unable to extract imgur id from "' + url + '"'));
     }
     if(idArr.length === 1) {
-        if(imgurwrapUtil.isAlbumURL(url)) {
+        if(imgurwrap.isAlbumURL(url)) {
             return imgurwrapAlbum.getAlbumData(idArr[0], callback);
         }
         return imgurwrapImage.getImageData(idArr[0], callback);

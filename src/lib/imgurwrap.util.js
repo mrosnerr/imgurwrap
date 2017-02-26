@@ -1,5 +1,4 @@
 'use strict';
-var request = require('request');
 var util = require('util');
 var imgurwrap = module.exports;
 

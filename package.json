@@ -1,28 +1,35 @@
 {
-    "name": "imgurwrap",
-    "description": "A wrapper for the Imgur API",
-    "version": "0.0.4",
-    "main": "src/imgurwrap.js",
-    "scripts": {
-        "test": "grunt --verbose"
-    },
-    "dependencies": {
-        "request": "~2.48.0",
-        "lodash": "~3.6.0"
-    },
-    "devDependencies": {
-        "grunt": "~0.4.5",
-        "grunt-contrib-jshint": "~0.11.1",
-        "grunt-mocha-test": "~0.12.7",
-        "grunt-contrib-uglify": "~0.8.1",
-        "should": "~5.2.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/msrxthr/imgurwrap.git"
-    },
-    "licenses": ["MIT"],
-    "keywords": ["imgur", "API", "wrapper", "images", "image", "upload"],
-    "author": "Meir Rosner",
-    "readmeFilename": "README.md"
+  "name": "imgurwrap",
+  "description": "A wrapper for the Imgur API",
+  "version": "0.1.0",
+  "main": "src/imgurwrap.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test/**",
+    "lint": "./node_modules/.bin/eslint src/** test/**"
+  },
+  "dependencies": {
+    "request": "^2.79.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msrxthr/imgurwrap.git"
+  },
+  "licenses": [
+    "MIT"
+  ],
+  "keywords": [
+    "imgur",
+    "API",
+    "wrapper",
+    "images",
+    "image",
+    "upload"
+  ],
+  "author": "Meir Rosner",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.11.0",
+    "mocha": "^3.2.0"
+  }
 }
